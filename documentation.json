@@ -1,0 +1,1236 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Inventory Control Restful API",
+    "version": "1.0.0",
+    "description": "OpenAPI for Inventory Control",
+    "contact": {
+      "name": "Source code",
+      "url": "https://github.com/budi-irawan"
+    }
+  },
+  "servers": [{
+    "url": "http://localhost:3000"
+  }],
+  "tags": [{
+    "name": "Role"
+  }, {
+    "name": "User"
+  }, {
+    "name": "Gudang"
+  }, {
+    "name": "Product"
+  }, {
+    "name": "Category"
+  }, {
+    "name": "Supplier"
+  }, {
+    "name": "Store"
+  }, {
+    "name": "Purchase"
+  }, {
+    "name": "Stockout"
+  }],
+  "paths": {
+    "/api/roles": {
+      "post": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "create role",
+        "description": "create role",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "roleName": {
+                    "type": "string",
+                    "required": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "get all role",
+        "description": "get all role",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "roleName": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "Date"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/roles/{id}": {
+      "put": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "update role",
+        "description": "update role",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "id"
+        }],
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "roleName": {
+                    "type": "string",
+                    "required": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "delete role",
+        "description": "delete role",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "id"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/roles/{id}/users": {
+      "get": {
+        "tags": ["Role"],
+        "summary": "get all users by role",
+        "description": "get all users by role",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/users/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "user registration",
+        "description": "user registration",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "email": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "password": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "image": {
+                    "type": "string",
+                    "required": "true",
+                    "format": "binary"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "roleName": {
+                    "type": "string",
+                    "required": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/users/verification/{verificationCode}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "user verification",
+        "description": "user verification",
+        "parameters": [{
+          "in": "path",
+          "name": "verificationCode",
+          "schema": {
+            "type": "string"
+          },
+          "description": "verification code"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "user login",
+        "description": "user login",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "password": {
+                    "type": "string",
+                    "required": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/users/forgot-password": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "forgot password",
+        "description": "forgot password",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "required": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/users/password-reset/{tokenReset}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "reset password",
+        "description": "reset password",
+        "parameters": [{
+          "in": "path",
+          "name": "tokenReset",
+          "schema": {
+            "type": "string"
+          },
+          "description": "reset token"
+        }],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "required": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": ["User"],
+        "summary": "get all users list",
+        "description": "get all users list",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "get user by id",
+        "description": "get user by id",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "user id"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Error:Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "delete exist user",
+        "description": "delete exist user",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "id"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/gudang": {
+      "get": {
+        "tags": ["Gudang"],
+        "summary": "get all gudang list",
+        "description": "get all gudang list",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Gudang"],
+        "summary": "create new gudang",
+        "description": "create new gudang",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "gudangName": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/gudang/{id}": {
+      "put": {
+        "tags": ["Gudang"],
+        "summary": "update gudang name",
+        "description": "update gudang name",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "gudang id for update gudang name"
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "gudangName": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Gudang"
+        ],
+        "summary": "delete gudang",
+        "description": "delete gudang",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "gudang id for delete it"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/gudang/{id}/products": {
+      "get": {
+        "tags": ["Gudang"],
+        "summary": "get all product list in gudang",
+        "description": "get all product list in gudang",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "gudang id for get it products"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "get all product list",
+        "description": "get all product list",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Product"],
+        "summary": "create new product",
+        "description": "create new product",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "required": true
+                  },
+                  "categoryName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "supplierName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "images": {
+                    "type": "string",
+                    "required": "true",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "put": {
+        "tags": ["Product"],
+        "summary": "update product",
+        "description": "update product",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "product id for update"
+        }],
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "categoryName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "supplierName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "images": {
+                    "type": "string",
+                    "required": "true",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Product"],
+        "summary": "delete product",
+        "description": "delete product",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "product id for delete it"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Product"],
+        "summary": "get product by id",
+        "description": "get product by id",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "product id for get product data"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "tags": ["Category"],
+        "summary": "get all category list",
+        "description": "get all category list",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Category"],
+        "summary": "create new category",
+        "description": "create new category",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categoryName": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/categories/{id}": {
+      "put": {
+        "tags": ["Category"],
+        "summary": "update category name",
+        "description": "update category name",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "category id for update category name"
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categoryName": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Category"],
+        "summary": "delete category",
+        "description": "delete category",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "category id for delete it"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/categories/{id}/products": {
+      "get": {
+        "tags": ["Category"],
+        "summary": "get all product by category",
+        "description": "get all product by category",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "category id for get product data"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/suppliers": {
+      "get": {
+        "tags": ["Supplier"],
+        "summary": "get all supplier list",
+        "description": "get all supplier list",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Supplier"],
+        "summary": "create new supplier",
+        "description": "create new supplier",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supplierName": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "address": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "phone": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/api/suppliers/{id}": {
+      "put": {
+        "tags": ["Supplier"],
+        "summary": "update supplier data",
+        "description": "update supplier data",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "supplier id for update supplier data"
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supplierName": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "address": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "phone": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Supplier"],
+        "summary": "delete supplier",
+        "description": "delete supplier",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "supplier id for delete it"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/stores": {
+      "get": {
+        "tags": ["Store"],
+        "summary": "get all store list",
+        "description": "get all store list",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Store"],
+        "summary": "create new store",
+        "description": "create new store",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "storeName": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "address": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "phone": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/api/stores/{id}": {
+      "put": {
+        "tags": ["Store"],
+        "summary": "update store data",
+        "description": "update store data",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "store id for update store data"
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "storeName": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "address": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "phone": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Store"],
+        "summary": "delete store",
+        "description": "delete store",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "store id for delete it"
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/purchases": {
+      "post": {
+        "tags": ["Purchase"],
+        "summary": "create purchase product",
+        "description": "create purchase product",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "security": [{
+          "MyUserToken": []
+        }],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "integer",
+                    "required": "true"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "required": "true"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "required": "true"
+                  },
+                  "gudangName": {
+                    "type": "string",
+                    "required": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Purchase"],
+        "summary": "get all purchase data",
+        "description": "get all purchase data",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/stock-out": {
+      "post": {
+        "tags": ["Stockout"],
+        "summary": "create stockout product",
+        "description": "create stockout product",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "integer",
+                    "required": "true"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "required": "true"
+                  },
+                  "gudangName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "storeName": {
+                    "type": "string",
+                    "required": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Stockout"],
+        "summary": "get all stockout data",
+        "description": "get all stockout data",
+        "security": [{
+          "MyUserToken": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "MyUserToken": {
+        "name": "token",
+        "type": "apiKey",
+        "in": "header"
+      }
+    }
+  }
+}
